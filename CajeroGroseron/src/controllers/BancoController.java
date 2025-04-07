@@ -1,10 +1,10 @@
 package controllers;
 
-import models.Cuenta;
-import models.Usuario;
-
 import java.util.ArrayList;
 import java.util.List;
+import models.Cuenta;
+import models.TiposCuentas;
+import models.Usuario;
 
 public class BancoController {
     private List<Usuario> usuarios;
@@ -22,7 +22,7 @@ public class BancoController {
         return null; // Usuario no encontrado o PIN incorrecto
     }
 
-    public boolean registrarUsuario(String nombre, String numeroCuenta, String pin, double saldoInicial) {
+    public boolean registrarUsuario(String nombre, String numeroCuenta, String pin, double saldoInicial, TiposCuentas tipoCuenta) {
         if (saldoInicial < 0) {
             return false; // Saldo inicial no puede ser negativo
         }
@@ -31,7 +31,8 @@ public class BancoController {
                 return false; // Usuario ya existe
             }
         }
-        Cuenta nuevaCuenta = new Cuenta(numeroCuenta, saldoInicial, pin, 0);
+        // Crear una nueva cuenta con el tipo especificado
+        Cuenta nuevaCuenta = new Cuenta(numeroCuenta, saldoInicial, pin, 0, tipoCuenta);
         Usuario nuevoUsuario = new Usuario(nombre, nuevaCuenta);
         usuarios.add(nuevoUsuario);
         return true;
